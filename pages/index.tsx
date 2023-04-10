@@ -1,24 +1,54 @@
-import { ConnectWallet } from "@thirdweb-dev/react";
+import {
+  ConnectWallet,
+  ThirdwebNftMedia,
+  useAddress,
+  useContract,
+  useOwnedNFTs,
+  Web3Button,
+} from "@thirdweb-dev/react";
 import type { NextPage } from "next";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
+  const { contract } = useContract(
+    "0xB8DF0088AB47714f1A094C407004aa78EeA8a83e"
+  );
+  const address = useAddress();
+
+  const { data: nfts } = useOwnedNFTs(contract, address);
+
   return (
     <div className={styles.container}>
       <main className={styles.main}>
         <h1 className={styles.title}>
           Welcome to <a href="http://thirdweb.com/">thirdweb</a>!
         </h1>
-
-        <p className={styles.description}>
-          Get started by configuring your desired network in{" "}
-          <code className={styles.code}>pages/_app.tsx</code>, then modify the{" "}
-          <code className={styles.code}>pages/index.tsx</code> file!
-        </p>
-
+        <br />
         <div className={styles.connect}>
           <ConnectWallet />
         </div>
+        <br />
+        {/* Code to work when a proper wallet is connected  */}
+        {/* {nfts?.map((nft) => (
+          <div className="nft-data" key={nft.metadata.id.toString()}>
+            <ThirdwebNftMedia metadata={nft.metadata} />
+            {nft.metadata.name}
+          </div>
+        ))}
+        <br />
+        <Web3Button
+          contractAddress={"0xB8DF0088AB47714f1A094C407004aa78EeA8a83e"}
+          action={(contract) => contract.erc1155.claim(0, 1)}
+        >
+          Claim a Mew!
+        </Web3Button>
+        <br />
+        <Web3Button
+          contractAddress={"0xB8DF0088AB47714f1A094C407004aa78EeA8a83e"}
+          action={(contract) => contract.call("evolve")}
+        >
+          Evolve into Mewtwo!
+        </Web3Button> */}
 
         <div className={styles.grid}>
           <a href="https://portal.thirdweb.com/" className={styles.card}>
